@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcolatrice Semplice</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #calculator { margin: 20px; }
+        input[type="text"] { width: 200px; margin-bottom: 10px; }
+        button { width: 40px; height: 40px; margin: 2px; }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <input type="text" id="display" disabled>
+        <br>
+        <button onclick="addToDisplay('1')">1</button>
+        <button onclick="addToDisplay('2')">2</button>
+        <button onclick="addToDisplay('3')">3</button>
+        <button onclick="setOperation('+')">+</button>
+        <br>
+        <button onclick="addToDisplay('4')">4</button>
+        <button onclick="addToDisplay('5')">5</button>
+        <button onclick="addToDisplay('6')">6</button>
+        <button onclick="setOperation('-')">-</button>
+        <br>
+        <button onclick="addToDisplay('7')">7</button>
+        <button onclick="addToDisplay('8')">8</button>
+        <button onclick="addToDisplay('9')">9</button>
+        <button onclick="setOperation('*')">*</button>
+        <br>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="addToDisplay('0')">0</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="setOperation('/')">/</button>
+    </div>
+
+    <script>
+        let firstNumber = null;
+        let secondNumber = null;
+        let operation = '';
+        let isFirstInput = true;
+
+        function addToDisplay(value) {
+            const display = document.getElementById('display');
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+            firstNumber = null;
+            secondNumber = null;
+            operation = '';
+            isFirstInput = true;
+        }
+
+        function setOperation(op) {
+            const display = document.getElementById('display');
+            if (isFirstInput) {
+                firstNumber = parseFloat(display.value);
+                operation = op;
+                display.value = '';
+                isFirstInput = false;
+            } else {
+                alert('Devi prima calcolare il risultato!');
+            }
+        }
+
+        function calculate() {
+            const display = document.getElementById('display');
+            if (!isFirstInput && operation) {
+                secondNumber = parseFloat(display.value);
+                let result;
+
+                switch (operation) {
+                    case '+':
+                        result = firstNumber + secondNumber;
+                        break;
+                    case '-':
+                        result = firstNumber - secondNumber;
+                        break;
+                    case '*':
+                        result = firstNumber * secondNumber;
+                        break;
+                    case '/':
+                        result = firstNumber / secondNumber;
+                        break;
+                    default:
+                        return;
+                }
+
+                display.value = result; // Mostra il risultato nel display
+                firstNumber = result; // Prepara per un nuovo calcolo
+                secondNumber = null; // Reset secondNumber
+                operation = ''; // Reset operazione
+                isFirstInput = true; // Resetta stato
+            } else {
+                alert('Inserisci un numero e un operatore!');
+            }
+        }
+    </script>
+</body>
+</html>
+
